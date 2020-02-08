@@ -36,7 +36,7 @@ class SPIDump(AModule):
             {"Name": "dumpfile", "Value": "", "Required": True, "Type": "string",
              "Description": "The dump filename", "Default": ""},
             {"Name": "sectors", "Value": "", "Required": True, "Type": "int",
-             "Description": "The number of sector (4096) to read. For example 1024 sector * 4096 = 4MiB",
+             "Description": "The number of sector (4096) to read.\nFor example 1024 sector * 4096 = 4MiB",
              "Default": 1024},
             {"Name": "start_sector", "Value": "", "Required": True, "Type": "int",
              "Description": "The starting sector (1 sector = 4096 bytes)", "Default": 0},
