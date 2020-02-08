@@ -1,29 +1,31 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-# Octowire Framework
-# Copyright (c) Jordan Ovrè / Paul Duncan
-# License: GPLv3
-# Paul Duncan / Eresse <eresse@dooba.io>
-# Jordan Ovrè / Ghecko <ghecko78@gmail.com
-
 
 from setuptools import setup, find_packages
 
+__authors__ = "Jordan Ovrè, Paul Duncan"
+__copyright__ = "Copyright (c) Jordan Ovrè / Paul Duncan"
+__license__ = "GPLv3"
+__version__ = "1.0.0"
+__contact__ = "Jordan Ovrè / Ghecko <ghecko78@gmail.com>, Paul Duncan / Eresse <eresse@dooba.io>"
+
 description = 'Octowire Framework flash dump module'
 name = 'owfmodules.spi.flash_dump'
+
 setup(
     name=name,
-    version='1.0.0',
+    version=__version__,
     packages=find_packages(),
-    license='GPLv3',
+    license=__license__,
     description=description,
-    author="Jordan Ovrè , Paul Duncan",
+    author=__authors__,
+    zip_safe=True,
     url='https://bitbucket.org/octowire/' + name,
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python :: 3',
-        'Development Status :: 3 - Alpha'
+        'Development Status :: 5 - Production/Stable'
     ],
     keywords=['octowire', 'framework', 'hardware', 'security', 'spi', 'dump', 'flash', 'memory']
 )
