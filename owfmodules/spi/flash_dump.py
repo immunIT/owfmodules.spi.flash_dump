@@ -33,7 +33,7 @@ class SPIDump(AModule):
              "Description": "The octowire SPI device (0=SPI0 or 1=SPI1)", "Default": 0},
             {"Name": "cs_pin", "Value": "", "Required": True, "Type": "int",
              "Description": "The octowire GPIO used as chip select (CS)", "Default": 0},
-            {"Name": "dumpfile", "Value": "", "Required": True, "Type": "string",
+            {"Name": "dumpfile", "Value": "", "Required": True, "Type": "file_w",
              "Description": "The dump filename", "Default": ""},
             {"Name": "sectors", "Value": "", "Required": True, "Type": "int",
              "Description": "The number of sector (4096) to read.\nFor example 1024 sector * 4096 = 4MiB",
