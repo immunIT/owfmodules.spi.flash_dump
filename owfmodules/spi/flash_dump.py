@@ -27,8 +27,6 @@ class SPIDump(AModule):
         })
         self.owf_serial = None
         self.options = [
-            {"Name": "detect_octowire", "Value": "", "Required": True, "Type": "bool",
-             "Description": "Detect and connect octowire hardware", "Default": True},
             {"Name": "spi_bus", "Value": "", "Required": True, "Type": "int",
              "Description": "The octowire SPI device (0=SPI0 or 1=SPI1)", "Default": 0},
             {"Name": "cs_pin", "Value": "", "Required": True, "Type": "int",
