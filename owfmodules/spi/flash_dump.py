@@ -47,7 +47,7 @@ class SPIDump(AModule):
         ]
         self.advanced_options.append(
             {"Name": "sector_size", "Value": "", "Required": True, "Type": "int",
-             "Description": "Flash sector size", "Default": 0x1000},
+             "Description": "Flash sector size", "Default": 0x1000}
         )
 
     @staticmethod
