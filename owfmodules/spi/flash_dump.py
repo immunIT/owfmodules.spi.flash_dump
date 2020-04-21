@@ -45,10 +45,10 @@ class SPIDump(AModule):
             {"Name": "spi_phase", "Value": "", "Required": True, "Type": "string",
              "Description": "set SPI phase (1=high or 0=low)", "Default": 0}
         ]
-        self.advanced_options.append(
+        self.advanced_options.append([
             {"Name": "sector_size", "Value": "", "Required": True, "Type": "int",
-             "Description": "Flash sector size", "Default": 0x1000},
-        )
+             "Description": "Flash sector size", "Default": 0x1000}
+        ])
 
     @staticmethod
     def _sizeof_fmt(num, suffix='B'):
