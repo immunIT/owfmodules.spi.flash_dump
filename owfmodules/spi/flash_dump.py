@@ -45,7 +45,7 @@ class SPIDump(AModule):
             "spi_phase": {"Value": "", "Required": True, "Type": "string",
                           "Description": "set SPI phase (1=high or 0=low)", "Default": 0}
         }
-        self.advanced_options.append({
+        self.advanced_options.update({
             "sector_size": {"Value": "", "Required": True, "Type": "int",
                             "Description": "Flash sector size", "Default": 0x1000}
         })
