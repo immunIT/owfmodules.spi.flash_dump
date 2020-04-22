@@ -64,7 +64,7 @@ class SPIDump(AModule):
         spi_baudrate = self.options["spi_baudrate"]["Value"]
         spi_cpol = self.options["spi_polarity"]["Value"]
         spi_cpha = self.options["spi_phase"]["Value"]
-        sector_size = self.options["sector_size"]["Value"]
+        sector_size = self.advanced_options["sector_size"]["Value"]
         sectors = self.options["sectors"]["Value"]
         current_sector_addr = self.options["start_sector"]["Value"]
         dump_file = self.options["dumpfile"]["Value"]
