@@ -21,34 +21,34 @@ class SPIDump(AModule):
         super(SPIDump, self).__init__(owf_config)
         self.meta.update({
             'name': 'SPI dump flash',
-            'version': '1.0.1',
+            'version': '1.0.0',
             'description': 'Module to dump an SPI flash',
             'author': 'Jordan Ovrè <ghecko78@gmail.com> / Paul Duncan <eresse@dooba.io>'
         })
         self.owf_serial = None
-        self.options = [
-            {"Name": "spi_bus", "Value": "", "Required": True, "Type": "int",
-             "Description": "The octowire SPI device (0=SPI0 or 1=SPI1)", "Default": 0},
-            {"Name": "cs_pin", "Value": "", "Required": True, "Type": "int",
-             "Description": "The octowire GPIO used as chip select (CS)", "Default": 0},
-            {"Name": "dumpfile", "Value": "", "Required": True, "Type": "file_w",
-             "Description": "The dump filename", "Default": ""},
-            {"Name": "sectors", "Value": "", "Required": True, "Type": "int",
-             "Description": "The number of sector (4096) to read.\nFor example 1024 sector * 4096 = 4MiB",
-             "Default": 1024},
-            {"Name": "start_sector", "Value": "", "Required": True, "Type": "int",
-             "Description": "The starting sector (1 sector = 4096 bytes)", "Default": 0},
-            {"Name": "spi_baudrate", "Value": "", "Required": True, "Type": "int",
-             "Description": "set SPI baudrate (1000000 = 1MHz) maximum = 50MHz", "Default": 1000000},
-            {"Name": "spi_polarity", "Value": "", "Required": True, "Type": "int",
-             "Description": "set SPI polarity (1=high or 0=low)", "Default": 0},
-            {"Name": "spi_phase", "Value": "", "Required": True, "Type": "string",
-             "Description": "set SPI phase (1=high or 0=low)", "Default": 0}
-        ]
-        self.advanced_options.append(
-            {"Name": "sector_size", "Value": "", "Required": True, "Type": "int",
-             "Description": "Flash sector size", "Default": 0x1000}
-        )
+        self.options = {
+            "spi_bus": {"Value": "", "Required": True, "Type": "int",
+                        "Description": "The octowire SPI device (0=SPI0 or 1=SPI1)", "Default": 0},
+            "cs_pin": {"Value": "", "Required": True, "Type": "int",
+                       "Description": "The octowire GPIO used as chip select (CS)", "Default": 0},
+            "dumpfile": {"Value": "", "Required": True, "Type": "file_w",
+                         "Description": "The dump filename", "Default": ""},
+            "sectors": {"Value": "", "Required": True, "Type": "int",
+                        "Description": "The number of sector (4096) to read.\nFor example 1024 sector * 4096 = 4MiB",
+                        "Default": 1024},
+            "start_sector": {"Value": "", "Required": True, "Type": "int",
+                             "Description": "The starting sector (1 sector = 4096 bytes)", "Default": 0},
+            "spi_baudrate": {"Value": "", "Required": True, "Type": "int",
+                             "Description": "set SPI baudrate (1000000 = 1MHz) maximum = 50MHz", "Default": 1000000},
+            "spi_polarity": {"Value": "", "Required": True, "Type": "int",
+                             "Description": "set SPI polarity (1=high or 0=low)", "Default": 0},
+            "spi_phase": {"Value": "", "Required": True, "Type": "string",
+                          "Description": "set SPI phase (1=high or 0=low)", "Default": 0}
+        }
+        self.advanced_options.append({
+            "sector_size": {"Value": "", "Required": True, "Type": "int",
+                            "Description": "Flash sector size", "Default": 0x1000}
+        })
 
     @staticmethod
     def _sizeof_fmt(num, suffix='B'):
@@ -59,15 +59,15 @@ class SPIDump(AModule):
         return "%.1f%s%s" % (num, 'Yi', suffix)
 
     def dump_flash(self):
-        bus_id = self.get_option_value("spi_bus")
-        cs_pin = self.get_option_value("cs_pin")
-        spi_baudrate = self.get_option_value("spi_baudrate")
-        spi_cpol = self.get_option_value("spi_polarity")
-        spi_cpha = self.get_option_value("spi_phase")
-        sector_size = self.get_advanced_option_value("sector_size")
-        sectors = self.get_option_value("sectors")
-        current_sector_addr = self.get_option_value("start_sector")
-        dump_file = self.get_option_value("dumpfile")
+        bus_id = self.options["spi_bus"]["Value"]
+        cs_pin = self.options["cs_pin"]["Value"]
+        spi_baudrate = self.options["spi_baudrate"]["Value"]
+        spi_cpol = self.options["spi_polarity"]["Value"]
+        spi_cpha = self.options["spi_phase"]["Value"]
+        sector_size = self.options["sector_size"]["Value"]
+        sectors = self.options["sectors"]["Value"]
+        current_sector_addr = self.options["start_sector"]["Value"]
+        dump_file = self.options["dumpfile"]["Value"]
         size = sector_size * sectors
         t_width, _ = shutil.get_terminal_size()
         buff = bytearray()
