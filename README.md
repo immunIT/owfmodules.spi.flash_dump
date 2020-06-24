@@ -1,2 +1,2 @@
 # SPI flash dump module
-the aim of this module is to dump an SPI flash.
+This module allows you dumping SPI flash memories.
