@@ -6,7 +6,6 @@
 # Paul Duncan / Eresse <pduncan@immunit.ch>
 # Jordan Ovrè / Ghecko <jovre@immunit.ch>
 
-
 import shutil
 import struct
 import time
@@ -16,34 +15,34 @@ from octowire.gpio import GPIO
 from octowire_framework.module.AModule import AModule
 
 
-class SPIDump(AModule):
+class FlashDump(AModule):
     def __init__(self, owf_config):
-        super(SPIDump, self).__init__(owf_config)
+        super(FlashDump, self).__init__(owf_config)
         self.meta.update({
-            'name': 'SPI dump flash',
+            'name': 'SPI flash dump',
             'version': '1.0.0',
-            'description': 'Module to dump an SPI flash',
+            'description': 'Dump generic SPI flash memories',
             'author': 'Jordan Ovrè / Ghecko <jovre@immunit.ch>, Paul Duncan / Eresse <pduncan@immunit.ch>'
         })
         self.owf_serial = None
         self.options = {
             "spi_bus": {"Value": "", "Required": True, "Type": "int",
-                        "Description": "The octowire SPI device (0=SPI0 or 1=SPI1)", "Default": 0},
+                        "Description": "SPI bus (0=SPI0 or 1=SPI1)", "Default": 0},
             "cs_pin": {"Value": "", "Required": True, "Type": "int",
-                       "Description": "The octowire GPIO used as chip select (CS)", "Default": 0},
+                       "Description": "GPIO used as chip select (CS)", "Default": 0},
             "dumpfile": {"Value": "", "Required": True, "Type": "file_w",
-                         "Description": "The dump filename", "Default": ""},
+                         "Description": "Dump output filename", "Default": ""},
             "sectors": {"Value": "", "Required": True, "Type": "int",
-                        "Description": "The number of sector (4096) to read.\nFor example 1024 sector * 4096 = 4MiB",
+                        "Description": "Number of sector (4096 bytes) to read.\nFor example 1024 sector * 4096 = 4MiB",
                         "Default": 1024},
             "start_sector": {"Value": "", "Required": True, "Type": "int",
-                             "Description": "The starting sector (1 sector = 4096 bytes)", "Default": 0},
+                             "Description": "Start sector index (1 sector = 4096 bytes)", "Default": 0},
             "spi_baudrate": {"Value": "", "Required": True, "Type": "int",
-                             "Description": "set SPI baudrate (1000000 = 1MHz) maximum = 50MHz", "Default": 1000000},
+                             "Description": "SPI frequency (1000000 = 1MHz) maximum = 50MHz", "Default": 1000000},
             "spi_polarity": {"Value": "", "Required": True, "Type": "int",
-                             "Description": "set SPI polarity (1=high or 0=low)", "Default": 0},
+                             "Description": "SPI polarity (1=high or 0=low)", "Default": 0},
             "spi_phase": {"Value": "", "Required": True, "Type": "string",
-                          "Description": "set SPI phase (1=high or 0=low)", "Default": 0}
+                          "Description": "SPI phase (1=high or 0=low)", "Default": 0}
         }
         self.advanced_options.update({
             "sector_size": {"Value": "", "Required": True, "Type": "int",
@@ -78,7 +77,7 @@ class SPIDump(AModule):
         cs.status = 1
         spi_interface.configure(baudrate=spi_baudrate, clock_polarity=spi_cpol, clock_phase=spi_cpha)
 
-        self.logger.handle("Start dumping {}.".format(self._sizeof_fmt(size)), self.logger.HEADER)
+        self.logger.handle("Starting dump: {}.".format(self._sizeof_fmt(size)), self.logger.HEADER)
         try:
             start_time = time.time()
             while current_sector_addr < size:
@@ -91,11 +90,9 @@ class SPIDump(AModule):
                 if not resp:
                     raise Exception("Unexpected error while reading the SPI flash")
                 buff.extend(resp)
-                print(" " * t_width, end="\r", flush=True)
-                print("Read: {}".format(self._sizeof_fmt(current_sector_addr)), end="\r", flush=True)
                 current_sector_addr += sector_size
             cs.status = 0
-            self.logger.handle("Successfully dump {} from flash memory.".format(self._sizeof_fmt(current_sector_addr)),
+            self.logger.handle("Successfully dumped {} from flash memory.".format(self._sizeof_fmt(current_sector_addr)),
                                self.logger.SUCCESS)
             self.logger.handle("Dumped in {} seconds.".format(time.time() - start_time, self.logger.INFO))
             with open(dump_file, 'wb') as f:
@@ -107,7 +104,7 @@ class SPIDump(AModule):
     def run(self):
         """
         Main function.
-        The aim of this module is to dump an spi flash
+        Dump generic SPI flash memories
         :return: Nothing
         """
         self.connect()

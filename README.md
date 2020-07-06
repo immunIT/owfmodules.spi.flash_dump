@@ -1,2 +1,3 @@
-# SPI flash dump module
-This module allows you dumping SPI flash memories.
+# owfmodules.spi.flash_dump
+
+Dump generic SPI flash memories.
