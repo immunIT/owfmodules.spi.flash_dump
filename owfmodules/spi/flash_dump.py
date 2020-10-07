@@ -8,7 +8,8 @@
 
 import shutil
 import struct
-import time
+
+from tqdm import tqdm
 
 from octowire.spi import SPI
 from octowire.gpio import GPIO
@@ -65,7 +66,6 @@ class FlashDump(AModule):
         spi_cpha = self.options["spi_phase"]["Value"]
         sector_size = self.advanced_options["sector_size"]["Value"]
         sectors = self.options["sectors"]["Value"]
-        current_sector_addr = self.options["start_sector"]["Value"]
         dump_file = self.options["dumpfile"]["Value"]
         size = sector_size * sectors
         t_width, _ = shutil.get_terminal_size()
@@ -79,10 +79,13 @@ class FlashDump(AModule):
 
         self.logger.handle("Starting dump: {}.".format(self._sizeof_fmt(size)), self.logger.HEADER)
         try:
-            start_time = time.time()
-            while current_sector_addr < size:
+            # Read flash loop
+            for sector_nb in tqdm(range(self.options["start_sector"]["Value"], sectors, ), desc="Reading",
+                                  unit_scale=False, ascii=" #", unit_divisor=1,
+                                  bar_format="{desc} : {percentage:3.0f}%[{bar}] {n_fmt}/{total_fmt} sectors "
+                                             "[elapsed: {elapsed} left: {remaining}]"):
                 # cmd = EEPROM Read 0x03 instruction + start address
-                cmd = b"\x03" + (struct.pack(">L", current_sector_addr)[1:])
+                cmd = b"\x03" + (struct.pack(">L", sector_nb * sector_size)[1:])
                 cs.status = 0
                 spi_interface.transmit(cmd)
                 resp = spi_interface.receive(sector_size)
@@ -90,11 +93,9 @@ class FlashDump(AModule):
                 if not resp:
                     raise Exception("Unexpected error while reading the SPI flash")
                 buff.extend(resp)
-                current_sector_addr += sector_size
             cs.status = 0
-            self.logger.handle("Successfully dumped {} from flash memory.".format(self._sizeof_fmt(current_sector_addr)),
+            self.logger.handle("Successfully dumped {} from flash memory.".format(self._sizeof_fmt(size)),
                                self.logger.SUCCESS)
-            self.logger.handle("Dumped in {} seconds.".format(time.time() - start_time, self.logger.INFO))
             with open(dump_file, 'wb') as f:
                 f.write(buff)
             self.logger.handle("Dump saved into {}".format(dump_file), self.logger.RESULT)
