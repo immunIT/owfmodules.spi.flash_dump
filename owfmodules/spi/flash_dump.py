@@ -80,7 +80,7 @@ class FlashDump(AModule):
         self.logger.handle("Starting dump: {}.".format(self._sizeof_fmt(size)), self.logger.HEADER)
         try:
             # Read flash loop
-            for sector_nb in tqdm(range(self.options["start_sector"]["Value"], sectors, ), desc="Reading",
+            for sector_nb in tqdm(range(self.options["start_sector"]["Value"], sectors), desc="Reading",
                                   unit_scale=False, ascii=" #", unit_divisor=1,
                                   bar_format="{desc} : {percentage:3.0f}%[{bar}] {n_fmt}/{total_fmt} sectors "
                                              "[elapsed: {elapsed} left: {remaining}]"):
