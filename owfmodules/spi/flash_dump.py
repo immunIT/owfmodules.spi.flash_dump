@@ -21,7 +21,7 @@ class FlashDump(AModule):
         super(FlashDump, self).__init__(owf_config)
         self.meta.update({
             'name': 'SPI flash dump',
-            'version': '1.1.0',
+            'version': '1.1.1',
             'description': 'Dump generic SPI flash memories',
             'author': 'Jordan Ovrè / Ghecko <jovre@immunit.ch>, Paul Duncan / Eresse <pduncan@immunit.ch>'
         })
