@@ -34,7 +34,7 @@ class FlashDump(AModule):
             "dumpfile": {"Value": "", "Required": True, "Type": "file_w",
                          "Description": "Dump output filename", "Default": ""},
             "sectors": {"Value": "", "Required": True, "Type": "int",
-                        "Description": "Number of sector (4096 bytes) to read.\nFor example 1024 sector * 4096 = 4MiB",
+                        "Description": "Number of sectors (4096 bytes) to read.\nFor example 1024 sector * 4096 = 4MiB",
                         "Default": 1024},
             "start_sector": {"Value": "", "Required": True, "Type": "int",
                              "Description": "Start sector index (1 sector = 4096 bytes)", "Default": 0},
