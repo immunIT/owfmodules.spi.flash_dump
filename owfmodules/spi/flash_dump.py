@@ -21,7 +21,7 @@ class FlashDump(AModule):
         super(FlashDump, self).__init__(owf_config)
         self.meta.update({
             'name': 'SPI flash dump',
-            'version': '1.1.1',
+            'version': '1.1.2',
             'description': 'Dump generic SPI flash memories',
             'author': 'Jordan Ovrè / Ghecko <jovre@immunit.ch>, Paul Duncan / Eresse <pduncan@immunit.ch>'
         })
@@ -39,7 +39,8 @@ class FlashDump(AModule):
             "start_sector": {"Value": "", "Required": True, "Type": "int",
                              "Description": "Start sector index (1 sector = 4096 bytes)", "Default": 0},
             "spi_baudrate": {"Value": "", "Required": True, "Type": "int",
-                             "Description": "SPI frequency (1000000 = 1MHz) maximum = 50MHz", "Default": 1000000},
+                             "Description": "SPI frequency (1000000 = 1MHz) Minimum: 240kHz - Maximum: 60MHz.",
+                             "Default": 1000000},
             "spi_polarity": {"Value": "", "Required": True, "Type": "int",
                              "Description": "SPI polarity (1=high or 0=low)", "Default": 0},
             "spi_phase": {"Value": "", "Required": True, "Type": "string",
